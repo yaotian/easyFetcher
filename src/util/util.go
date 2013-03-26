@@ -51,6 +51,32 @@ func CheckIsIn(all []int, for_check int) bool {
 	return false
 }
 
+func Use_Reg_Get_String(raw_str string, regexp_str string) (string, error) {
+	re_compile, e := regexp.Compile(regexp_str)
+	if e != nil {
+		Report_Error("raw_str:", raw_str, "regexp_str:", regexp_str)
+	}
+	if m := re_compile.FindStringSubmatch(raw_str); m != nil {
+		if len(m) > 1 {
+			return m[1], nil
+
+		}
+	}
+	return "", nil
+}
+
+func Use_Reg_Get_Many_Strings(raw_str string, regexp_str string) ([]string, error) {
+	re_compile, e := regexp.Compile(regexp_str)
+	if e != nil {
+		Report_Error("raw_str:", raw_str, "regexp_str:", regexp_str)
+	}
+	if m := re_compile.FindAllString(raw_str, -1); m != nil {
+		return m, nil
+	}
+	return []string{""}, nil
+
+}
+
 func CheckStringLongThan(raw_str string, length int) bool {
 	return utf8.RuneCountInString(raw_str) > length
 }
